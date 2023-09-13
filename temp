@@ -1,0 +1,101 @@
+<table id="dtBasicExample"
+                                        class="table table-striped table-bordered table-sm dataTable no-footer"
+                                        cellspacing="0" width="100%" role="grid" aria-describedby="dtBasicExample_info"
+                                        style="width: 100%;">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="dtBasicExample" rowspan="1" colspan="1"
+                                                    aria-sort="ascending"
+                                                    aria-label="Name: activate to sort column descending"
+                                                    style="width: 146.733px;">Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Phone Number: activate to sort column ascending"
+                                                    style="width: 111.733px;">Phone Number</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Gender: activate to sort column ascending"
+                                                    style="width: 47.7333px;">Gender</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Age: activate to sort column ascending"
+                                                    style="width: 25.7333px;">Age</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Point: activate to sort column ascending"
+                                                    style="width: 36.7333px;">Point</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Followers: activate to sort column ascending"
+                                                    style="width: 71.7333px;">Followers</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Following: activate to sort column ascending"
+                                                    style="width: 69.7333px;">Following</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Country: activate to sort column ascending"
+                                                    style="width: 78.7333px;">Country</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="City: activate to sort column ascending"
+                                                    style="width: 27.7333px;">City</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Created At: activate to sort column ascending"
+                                                    style="width: 57.7333px;">Created At</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Invited By: activate to sort column ascending"
+                                                    style="width: 47.7333px;">Invited By</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Show History: activate to sort column ascending"
+                                                    style="width: 89.7333px;">Show History</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Notification: activate to sort column ascending"
+                                                    style="width: 117.733px;">Notification</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dtBasicExample"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Is Block: activate to sort column ascending"
+                                                    style="width: 85.7333px;">Is Block</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr class="odd">
+                                                <td class="sorting_1">elina</td>
+                                                <td>0333026498</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>china</td>
+                                                <td></td>
+                                                <td>15-01-2022</td>
+                                                <td></td>
+                                                <td>
+                                                    <button type="button" name="show_history" id="show_history"
+                                                        class="btn btn-sm btn-success">Show History</button>
+                                                </td>
+
+                                                <td>
+                                                    <a href="./api/push-notification.php"><button type="button"
+                                                            name="push_notification" id="push_notification"
+                                                            class="btn btn-sm btn-primary">Push
+                                                            Notification</button></a>
+                                                </td>
+                                                <td>
+                                                    <label class="switch">
+                                                        <input type="checkbox" name="isBlock" id="isBlock" value="13"
+                                                            checked="">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
