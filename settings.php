@@ -1,5 +1,89 @@
 <?php 
 require_once('./config/AppDetails.php');
+require_once('./api/connection.php');
+
+$sql = "SELECT * FROM coins_purchase WHERE id = 0"; // Assuming you want to retrieve data for ID 0
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc(); // Fetch the data
+    // Assign the fetched data to variables
+    $firstPC = $row['firstPC'];
+    $firstPCAmount = $row['firstPCAmount'];
+    $secondPC = $row['secondPC'];
+    $secondPCAmount = $row['secondPCAmount'];
+    $thirdPC = $row['thirdPC'];
+    $thirdPCAmount = $row['thirdPCAmount'];
+    $fourPC = $row['fourPC'];
+    $fourPCAmount = $row['fourPCAmount'];
+    $fifthPC = $row['fifthPC'];
+    $fifthPCAmount = $row['fifthPCAmount'];
+    $sixthPC = $row['sixthPC'];
+    $sixthPCAmount = $row['sixthPCAmount'];
+    $seventhPC = $row['seventhPC'];
+    $seventhPCAmount = $row['seventhPCAmount'];
+} else {
+    // Handle the case where data with ID 0 does not exist
+}
+
+if (isset($_POST['savePC'])) {
+    // Retrieve form data
+    $firstPC = $_POST['firstPC'];
+    $firstPCAmount = $_POST['firstPCAmount'];
+    $secondPC = $_POST['secondPC'];
+    $secondPCAmount = $_POST['secondPCAmount'];
+    $thirdPC = $_POST['thirdPC'];
+    $thirdPCAmount = $_POST['thirdPCAmount'];
+    $fourPC = $_POST['fourPC'];
+    $fourPCAmount = $_POST['fourPCAmount'];
+    $fifthPC = $_POST['fifthPC'];
+    $fifthPCAmount = $_POST['fifthPCAmount'];
+    $sixthPC = $_POST['sixthPC'];
+    $sixthPCAmount = $_POST['sixthPCAmount'];
+    $seventhPC = $_POST['seventhPC'];
+    $seventhPCAmount = $_POST['seventhPCAmount'];
+
+    // SQL insert statement
+    if ($result->num_rows > 0) {
+        // Data with ID 0 already exists, perform an update
+        $sqlUpdate = "UPDATE coins_purchase SET
+            firstPC = '$firstPC',
+            firstPCAmount = '$firstPCAmount',
+            secondPC = '$secondPC',
+            secondPCAmount = '$secondPCAmount',
+            thirdPC = '$thirdPC',
+            thirdPCAmount = '$thirdPCAmount',
+            fourPC = '$fourPC',
+            fourPCAmount = '$fourPCAmount',
+            fifthPC = '$fifthPC',
+            fifthPCAmount = '$fifthPCAmount',
+            sixthPC = '$sixthPC',
+            sixthPCAmount = '$sixthPCAmount',
+            seventhPC = '$seventhPC',
+            seventhPCAmount = '$seventhPCAmount'
+            WHERE id = 0";
+
+        if ($conn->query($sqlUpdate) === TRUE) {
+            echo "Data updated successfully!";
+        } else {
+            echo "Error updating data: " . $conn->error;
+        }
+    } else {
+        // Data with ID 0 does not exist, perform an insert
+        $sqlInsert = "INSERT INTO coins_purchase (id, firstPC, firstPCAmount, secondPC, secondPCAmount, thirdPC, thirdPCAmount, fourPC, fourPCAmount, fifthPC, fifthPCAmount, sixthPC, sixthPCAmount, seventhPC, seventhPCAmount)
+            VALUES (0, '$firstPC', '$firstPCAmount', '$secondPC', '$secondPCAmount', '$thirdPC', '$thirdPCAmount', '$fourPC', '$fourPCAmount', '$fifthPC', '$fifthPCAmount', '$sixthPC', '$sixthPCAmount', '$seventhPC', '$seventhPCAmount')";
+
+        if ($conn->query($sqlInsert) === TRUE) {
+            echo "Data inserted successfully!";
+        } else {
+            echo "Error inserting data: " . $conn->error;
+        }
+    }
+
+    // Close the database connection
+    $conn->close();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -331,7 +415,7 @@ require_once('./config/AppDetails.php');
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Layout</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Blank</a></li>
+                            <li class="breadcrumb-item active"><a href="javascript:void(0)">App Settings</a></li>
                         </ol>
                     </div>
                 </div>
@@ -344,41 +428,59 @@ require_once('./config/AppDetails.php');
                             </div>
                             <div class="card-body">
                                 <div class="basic-elements">
-                                    <form action="http://47.243.37.119/api/setting/store" method="post" enctype="multipart/form-data">
+                                    <form method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="_token" value="YAuQ6qz0oj9esjoXN2VXRiEF8NXuPM6OYBQvpwLA">                                        <input type="hidden" name="device" value="web">
                                         <input type="hidden" name="set_id" value="1">
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3">
                                                 <div class="form-group">
-                                                    <label>Login Bonus</label>
-                                                    <input type="text" name="login_bonus" class="form-control" value="600">
+                                                    <label>Signup Bonus</label>
+                                                    <input type="text" name="signup_coins" class="form-control" placeholder="Coins">
+                                                    <label>Referral Bonus</label>
+                                                    <input type="text" name="refer_percent" class="form-control" placeholder="Percentage> Ex. 10">
+                                                    <label>Duration</label>
+                                                    <input type="text" name="refer_time" class="form-control" placeholder="Time Duration">
                                                 </div>
+                                                <div class="form-group">
+                                            <button type="submit" name="saveBonus" class="btn btn-success">Submit</button>
+                                        </div>
                                             </div>
 
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3">
                                                 <div class="form-group">
-                                                    <label>Spin Coins</label>
-                                                    <input type="text" name="free_recharge[]" class="form-control custom-margin-top" value="">
+                                                    <label>Purchase Coins >< </label>
+                                                    <label>Data 1</label>
+                                                    <input type="text" name="firstPC" id="firstPC" class="form-control custom-margin-top" value="<?php echo $firstPC; ?>" placeholder="Coins">
+                                                    <input type="text" name="firstPCAmount" id="firstPCAmount" class="form-control custom-margin-top"value="<?php echo $firstPCAmount; ?>"  placeholder="Amount">
 
-                                                    <input type="text" name="free_recharge[]" class="form-control custom-margin-top" value="">
+                                                    <label>Data 2</label>
+                                                    <input type="text" name="secondPC" id="secondPC" class="form-control custom-margin-top" value="<?php echo $secondPC; ?>" placeholder="Coins">
+                                                    <input type="text" name="secondPCAmount" id="secondPCAmount" class="form-control custom-margin-top" value="<?php echo $secondPCAmount; ?>" placeholder="Amount">
 
-                                                    <input type="text" name="free_recharge[]" class="form-control custom-margin-top" value="">
+                                                    <label>Data 3</label>
+                                                    <input type="text" name="thirdPC" id="thirdPC" class="form-control custom-margin-top" value="<?php echo $thirdPC; ?>" value="<?php echo $firstPC; ?>" placeholder="Coins">
+                                                    <input type="text" name="thirdPCAmount" id="thirdPCAmount" class="form-control custom-margin-top" value="<?php echo $thirdPCAmount; ?>" value="<?php echo $firstPC; ?>" placeholder="Amount">
 
-                                                    <input type="text" name="free_recharge[]" class="form-control custom-margin-top" value="">
+                                                    <label>Data 4</label>
+                                                    <input type="text" name="fourPC" id="fourPC" class="form-control custom-margin-top" value="<?php echo $fourPC; ?>" value="<?php echo $firstPC; ?>" placeholder="Coins">
+                                                    <input type="text" name="fourPCAmount" id="fourPCAmount" class="form-control custom-margin-top" value="<?php echo $fourPCAmount; ?>" value="<?php echo $firstPC; ?>" placeholder="Amount">
 
-                                                    <input type="text" name="free_recharge[]" class="form-control custom-margin-top" value="">
+                                                    <label>Data 5</label>
+                                                    <input type="text" name="fifthPC" id="fifthPC" class="form-control custom-margin-top" value="<?php echo $fifthPC; ?>" placeholder="Coins">
+                                                    <input type="text" name="fifthPCAmount" id="fifthPCAmount" class="form-control custom-margin-top" value="<?php echo $fifthPCAmount; ?>" placeholder="Amount">
 
-                                                    <input type="text" name="free_recharge[]" class="form-control custom-margin-top" value="">
+                                                    <label>Data 6</label>
+                                                    <input type="text" name="sixthPC" id="sixthPC" class="form-control custom-margin-top" value="<?php echo $sixthPC; ?>" placeholder="Coins">
+                                                    <input type="text" name="sixthPCAmount" id="sixthPCAmount" class="form-control custom-margin-top" value="<?php echo $sixthPCAmount; ?>" placeholder="Amount">
 
-                                                    <input type="text" name="free_recharge[]" class="form-control custom-margin-top" value="">
-
-                                                    <input type="text" name="free_recharge[]" class="form-control custom-margin-top" value="">
-
-                                                    <input type="text" name="free_recharge[]" class="form-control custom-margin-top" value="">
-
-                                                    <input type="text" name="free_recharge[]" class="form-control custom-margin-top" value="">
+                                                    <label>Data 7</label>
+                                                    <input type="text" name="seventhPC" id="seventhPC" class="form-control custom-margin-top" value="<?php echo $seventhPC; ?>" placeholder="Coins">
+                                                    <input type="text" name="seventhPCAmount" id="seventhPCAmount" class="form-control custom-margin-top" value="<?php echo $seventhPCAmount; ?>" placeholder="Amount">
                                                 </div>
+                                                <div class="form-group">
+                                            <button type="submit" name="savePC" class="btn btn-success">Submit</button>
+                                        </div>
                                             </div>
 
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3">
@@ -719,7 +821,81 @@ require_once('./config/AppDetails.php');
 
     <script src="./js/dashboard/dashboard-2.js"></script>
     <!-- Circle progress -->
+    <script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("savePC").addEventListener("click", function () {
+        // Collect data from your input fields
+        var firstPC = document.getElementById("firstPC").value;
+        var firstPCAmount = document.getElementById("firstPCAmount").value;
 
+        var secondPC = document.getElementById("secondPC").value;
+        var secondPCAmount = document.getElementById("secondPCAmount").value;
+        
+        var thirdPC = document.getElementById("thirdPC").value;
+        var thirdPCAmount = document.getElementById("thirdPCAmount").value;
+        
+        var fourPC = document.getElementById("fourPC").value;
+        var fourPCAmount = document.getElementById("fourPCAmount").value;
+        
+        var fifthPC = document.getElementById("fifthPC").value;
+        var fifthPCAmount = document.getElementById("fifthPCAmount").value;
+        
+        var sixthPC = document.getElementById("sixthPC").value;
+        var sixthPCAmount = document.getElementById("sixthPCAmount").value;
+        
+        var seventhPC = document.getElementById("seventhPC").value;
+        var seventhPCAmount = document.getElementById("seventhPCAmount").value;
+        // Repeat this for all other input fields
+
+        // Create a JSON object to hold the data
+        var data = {
+            firstPC: firstPC,
+            firstPCAmount: firstPCAmount,
+            
+            secondPC: secondPC,
+            secondPCAmount: secondPCAmount,
+            
+            thirdPC: thirdPC,
+            thirdPCAmount: thirdPCAmount,
+            
+            fourPC: fourPC,
+            fourPCAmount: fourPCAmount,
+            
+            fifthPC: fifthPC,
+            fifthPCAmount: fifthPCAmount,
+            
+            sixthPC: sixthPC,
+            sixthPCAmount: sixthPCAmount,
+            
+            seventhPC: seventhPC,
+            seventhPCAmount: seventhPCAmount,
+            
+            // Add other data fields here
+        };
+
+        // Create a new XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+
+        // Configure the AJAX request
+        xhr.open("POST", "settings.php", true); // Replace with your PHP script's URL
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        // Set a callback function to handle the response
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Handle the response here, e.g., display a success message
+                console.log(xhr.responseText); // Log the response to the console
+            }
+        };
+
+        // Convert the data object to JSON format
+        var jsonData = JSON.stringify(data);
+
+        // Send the AJAX request with JSON data
+        xhr.send(jsonData);
+    });
+});
+</script>
 </body>
 
 </html>

@@ -39,7 +39,7 @@ if (isset($_FILES['my_image'])) {
                     $current_time = mysqli_real_escape_string($conn, $current_time);
 
                     // Assuming your table structure is: ID, IMAGE, NAME, CREATED_AT, UPDATED_AT, IS_TOP
-                    $sql = "INSERT INTO emojies (EMOJI, CREATED_AT, UPDATED_AT) VALUES ('$new_img_name', '$current_time', '$current_time')";
+                    $sql = "INSERT INTO stickers (STICKER, CREATED_AT, UPDATED_AT) VALUES ('$new_img_name', '$current_time', '$current_time')";
 
                     if (mysqli_query($conn, $sql)) {
                         $res = array('error' => 0, 'src' => $new_img_name);

@@ -331,7 +331,7 @@ require_once('./config/AppDetails.php');
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Layout</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Blank</a></li>
+                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Stickers</a></li>
                         </ol>
                     </div>
                 </div>
@@ -358,40 +358,65 @@ require_once('./config/AppDetails.php');
                                 </div>
                             </div>
                             <br>
-                            <div id="example_wrapper" class="dataTables_wrapper no-footer"><div class="dataTables_length" id="example_length"><label>Show <select name="example_length" aria-controls="example" class=""><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div><div id="example_filter" class="dataTables_filter"><label>Search:<input type="search" class="" placeholder="" aria-controls="example"></label></div><table id="example" class="table table-striped table-bordered dataTable no-footer" style="width:100%" role="grid" aria-describedby="example_info">
-                                <thead>
-                                    <tr role="row"><th class="sorting sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Sticker: activate to sort column descending" style="width: 188.104px;">Sticker</th><th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Created At: activate to sort column ascending" style="width: 211.541px;">Created At</th><th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Updated At: activate to sort column ascending" style="width: 211.541px;">Updated At</th><th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 131.479px;">Action</th></tr>
-                                </thead>
-                                <tbody>
-                                                                                                                        
-                                                                                    
-                                        
-                                    
-                                <tr class="odd">
-                                                <td class="sorting_1"><img src="http://127.0.0.1:8000/sticker_img/20220117140240.png" style="width: 60px;height: 60px;object-fit: cover;"></td>
+                            <div id="example_wrapper" class="dataTables_wrapper no-footer"><div class="dataTables_length" id="example_length"><label>Show <select name="example_length" aria-controls="example" class=""><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div><div id="example_filter" class="dataTables_filter"><label>Search:<input type="search" class="" placeholder="" aria-controls="example"></label></div>
+                            
+                            <?php
+// Database connection information
+$sname = "localhost";
+$uname = "harsh";
+$password = "harsh";
+$db_name = "tango";
 
-                                                <td>17-01-2022</td>
-                                                <td>17-01-2022</td>
+// Create a connection to the database
+$conn = mysqli_connect($sname, $uname, $password, $db_name);
 
-                                                <td>
-                                                    <span class="ti-slice" onclick="edit(3)"></span>
-                                                    <span class="ti-trash" onclick="deletes(3)"></span>
-                                                </td>
+// Check the connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
-                                            </tr><tr class="even">
-                                                <td class="sorting_1"><img src="http://127.0.0.1:8000/sticker_img/20220117173907.png" style="width: 60px;height: 60px;object-fit: cover;"></td>
+// Query to retrieve data from the database
+$sql = "SELECT * FROM stickers";
+$result = mysqli_query($conn, $sql);
 
-                                                <td>17-01-2022</td>
-                                                <td>17-01-2022</td>
+if (mysqli_num_rows($result) > 0) {
+    echo '<table id="example" class="table table-striped table-bordered dataTable no-footer" style="width:100%" role="grid" aria-describedby="example_info">';
+    echo '<thead>';
+    echo '<tr role="row">';
+    echo '<th class="sorting sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Sticker: activate to sort column descending" style="width: 188.104px;">Sticker</th>';
+    echo '<th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Created At: activate to sort column ascending" style="width: 211.541px;">Created At</th>';
+    echo '<th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Updated At: activate to sort column ascending" style="width: 211.541px;">Updated At</th>';
+    echo '<th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 131.479px;">Action</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody>';
 
-                                                <td>
-                                                    <span class="ti-slice" onclick="edit(4)"></span>
-                                                    <span class="ti-trash" onclick="deletes(4)"></span>
-                                                </td>
+    // Loop through each row of the result set
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo '<tr class="odd">';
+        echo '<td class="sorting_1"><img src="' . $MEDIA_DOMAIN . $row['STICKER'] . '" style="width: 60px;height: 60px;object-fit: cover;"></td>';
+        echo '<td>' . $row['CREATED_AT'] . '</td>';
+        echo '<td>' . $row['UPDATED_AT'] . '</td>';
+        echo '<td>';
+        echo '<span class="ti-slice" onclick="edit(' . $row['ID'] . ')"></span>';
+        echo '<span class="ti-trash" onclick="deletes(' . $row['ID'] . ')"></span>';
+        echo '</td>';
+        echo '</tr>';
+    }
 
-                                            </tr></tbody>
+    echo '</tbody>';
+    echo '</table>';
+} else {
+    echo 'No data found.';
+}
 
-                            </table><div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing 1 to 2 of 2 entries</div><div class="dataTables_paginate paging_simple_numbers" id="example_paginate"><a class="paginate_button previous disabled" aria-controls="example" data-dt-idx="0" tabindex="-1" id="example_previous">Previous</a><span><a class="paginate_button current" aria-controls="example" data-dt-idx="1" tabindex="0">1</a></span><a class="paginate_button next disabled" aria-controls="example" data-dt-idx="2" tabindex="-1" id="example_next">Next</a></div></div>
+// Close the database connection
+mysqli_close($conn);
+?>
+
+
+                            
+                            <div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing 1 to 2 of 2 entries</div><div class="dataTables_paginate paging_simple_numbers" id="example_paginate"><a class="paginate_button previous disabled" aria-controls="example" data-dt-idx="0" tabindex="-1" id="example_previous">Previous</a><span><a class="paginate_button current" aria-controls="example" data-dt-idx="1" tabindex="0">1</a></span><a class="paginate_button next disabled" aria-controls="example" data-dt-idx="2" tabindex="-1" id="example_next">Next</a></div></div>
                         </div>
                     </div>
                 </div>
@@ -408,7 +433,7 @@ require_once('./config/AppDetails.php');
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Add Sticker</h5>
+                                                    <h5 class="modal-title">Add Stickers</h5>
                                                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                                                     </button>
                                                 </div>
@@ -416,9 +441,10 @@ require_once('./config/AppDetails.php');
                                                 <div class="modal-body">
                         <input type="hidden" name="_token" value="YAuQ6qz0oj9esjoXN2VXRiEF8NXuPM6OYBQvpwLA">                        <input type="hidden" name="country_id" id="country_id">
                         <input type="hidden" name="device" id="device" value="web">
+
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">Image:</label>
-                            <input type="file" name="country_image" class="form-control">
+                            <input type="file" id="myImage" name="country_image" class="form-control">
                         </div>
 
                         <div class="form-group" style="visibility:hidden;">
@@ -430,7 +456,7 @@ require_once('./config/AppDetails.php');
 
                     <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                    <button type="button" id="submit" class="btn btn-primary">Save changes</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -441,7 +467,7 @@ require_once('./config/AppDetails.php');
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Edit Sticker</h5>
+                                                    <h5 class="modal-title">Edit Stickers</h5>
                                                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                                                     </button>
                                                 </div>
@@ -449,9 +475,10 @@ require_once('./config/AppDetails.php');
                                                 <div class="modal-body">
                         <input type="hidden" name="_token" value="YAuQ6qz0oj9esjoXN2VXRiEF8NXuPM6OYBQvpwLA">                        <input type="hidden" name="country_id" id="country_id">
                         <input type="hidden" name="device" id="device" value="web">
+
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">Image:</label>
-                            <input type="file" name="country_image" class="form-control">
+                            <input type="file" id="myImage" name="country_image" class="form-control">
                         </div>
 
                         <div class="form-group" style="visibility:hidden;">
@@ -463,7 +490,7 @@ require_once('./config/AppDetails.php');
 
                     <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                    <button type="button" id="submit" class="btn btn-primary">Save changes</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -514,6 +541,62 @@ require_once('./config/AppDetails.php');
     <script src="./js/dashboard/dashboard-2.js"></script>
     <!-- Circle progress -->
 
+    <script type="text/javascript">
+        function previewImage(event) {
+            const fileInput = event.target;
+            const imgPreview = document.getElementById('view_country_img');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    imgPreview.src = e.target.result;
+                    imgPreview.style.visibility = 'visible';
+                };
+
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+        $(document).ready(function() {
+    $("#submit").click(function(e) {
+        e.preventDefault();
+
+        let form_data = new FormData();
+        let img = $("#myImage")[0].files;
+
+        if (img.length > 0) {
+            form_data.append('my_image', img[0]);
+
+            $.ajax({
+                url: 'process_stickers.php',
+                type: 'post',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                success: function(res){
+                    const data = JSON.parse(res);
+
+                    if (data.error != 1) {
+                        let path = "uploads/"+data.src;
+                        $("#preImg").attr("src", path);
+                        $("#preImg").fadeOut(1).fadeIn(1000);
+                        $("#myImage").val('');
+
+                        $('#newModal').modal('hide');
+                    } else {
+                        $("#errorMs").text(data.em);
+                    }
+                }
+            });
+        } else {
+            $("#errorMs").text("Please select an image");
+        }
+    });
+});
+
+    </script>
+    
 </body>
 
 </html>
